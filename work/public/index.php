@@ -12,12 +12,24 @@ try {
     DB_PASS,
     [
       PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+      PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
+      PDO::ATTR_EMULATE_PREPARES => false,
     ]
   );
 } catch (PDOException $e) {
   echo $e->getMessage();
   exit;
 }
+
+function getTodos($pdo) {
+  $stmt = $pdo->query("SELECT * FROM todos ORDER BY id DESC"); // 新しい順に並べた上で取得するSQL
+  $todos = $stmt->fetchAll(); // SQL文の結果を返す
+  return $todos;
+}
+
+$todos = getTodos($pdo);
+var_dump($todos); // $todosを表示してみる
+exit;
 ?>
 
 <!DOCTYPE html>

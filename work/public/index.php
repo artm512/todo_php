@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 /* PDOを使用してアクセス */
 // DSN(データソースネーム): mysql => host名,db名,文字コード
 define('DSN', 'mysql:host=db;dbname=myapp;charset=utf8mb4');
@@ -6,6 +9,8 @@ define('DB_USER', 'myappuser');
 define('DB_PASS', 'myapppass');
 // define('SITE_URL', 'http://localhost:8562');
 define('SITE_URL', 'http://' . $_SERVER['HTTP_HOST']);
+
+createToken();
 
 // PDOのインスタンスを作成
 try {
@@ -29,6 +34,26 @@ function h($str) {
   return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
 
+// トークンを作る関数を定義
+function createToken()
+{
+  if (!isset($_SESSION['token'])) {
+    // 推測されにくい文字列をトークンとして設定
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+  }
+}
+
+// トークンが一致しているかをチェックする関数
+function validateToken()
+{
+  if (
+    empty($_SESSION['token']) ||
+    $_SESSION['token'] !== filter_input(INPUT_POST, 'token')
+  ) {
+    exit('Invalid post request');
+  }
+}
+
 // レコードの追加
 function addTodo($pdo) {
   $title = trim(filter_input(INPUT_POST, 'title')); // 前後に半角空白が入って来たら除去
@@ -48,6 +73,7 @@ function getTodos($pdo) {
 
 // $_SERVERを調べて、POSTだったら追加する
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  validateToken();
   addTodo($pdo);
 
   // 再読み込み時は、postではない形式でindex.phpにアクセスさせる
@@ -72,6 +98,7 @@ $todos = getTodos($pdo);
 
   <form action="" method="post">
     <input type="text" name="title" placeholder="Type new todo.">
+    <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
   </form>
 
   <ul>

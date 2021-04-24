@@ -64,3 +64,15 @@ function getTodos($pdo) {
   $todos = $stmt->fetchAll(); // SQL文の結果を返す
   return $todos;
 }
+
+function toggleTodo($pdo)
+{
+  $id = filter_input(INPUT_POST, 'id');
+  if (empty($id)) {
+    return;
+  }
+
+  $stmt = $pdo->prepare("UPDATE todos SET is_done = NOT is_done WHERE id = :id");
+  $stmt->bindValue('id', $id, PDO::PARAM_INT);
+  $stmt->execute();
+}

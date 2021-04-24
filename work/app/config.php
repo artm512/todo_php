@@ -9,3 +9,5 @@ define('DB_USER', 'myappuser');
 define('DB_PASS', 'myapppass');
 // define('SITE_URL', 'http://localhost:8562');
 define('SITE_URL', 'http://' . $_SERVER['HTTP_HOST']);
+
+require_once(__DIR__ . '/functions.php');

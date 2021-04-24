@@ -4,6 +4,9 @@
 define('DSN', 'mysql:host=db;dbname=myapp;charset=utf8mb4');
 define('DB_USER', 'myappuser');
 define('DB_PASS', 'myapppass');
+// define('SITE_URL', 'http://localhost:8562');
+define('SITE_URL', 'http://' . $_SERVER['HTTP_HOST']);
+
 // PDOのインスタンスを作成
 try {
   $pdo = new PDO(
@@ -46,6 +49,10 @@ function getTodos($pdo) {
 // $_SERVERを調べて、POSTだったら追加する
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   addTodo($pdo);
+
+  // 再読み込み時は、postではない形式でindex.phpにアクセスさせる
+  header('Location: ' . SITE_URL);
+  exit;
 }
 
 $todos = getTodos($pdo);

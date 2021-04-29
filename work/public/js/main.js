@@ -45,6 +45,23 @@
     if (!confirm('Are you sure?')) {
       return;
     }
-    purge.parentNode.submit();
+    
+    // 非同期通信 fetch
+    const url = '?action=purge';
+    const options = {
+      method: 'POST',
+      body: new URLSearchParams({
+        token: purge.dataset.token,
+      }),
+    }
+    fetch(url, options);
+
+    // 削除項目を削除
+    const lis = document.querySelectorAll('.todoItems__item');
+    lis.forEach(li => {
+      if (li.children[0].checked) {
+        li.remove();
+      }
+    })
   });
 }

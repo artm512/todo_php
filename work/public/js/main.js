@@ -1,6 +1,8 @@
 'use strict';
 
 {
+  const token = document.querySelector('main').dataset.token;
+
   const checkboxes = document.querySelectorAll('input[type="checkbox"]');
   checkboxes.forEach(checkbox => {
     checkbox.addEventListener('change', () => {
@@ -10,7 +12,7 @@
         method: 'POST',
         body: new URLSearchParams({
           id: checkbox.dataset.id,
-          token: checkbox.dataset.token,
+          token: token,
         }),
       }
       fetch(url, options);
@@ -30,7 +32,7 @@
         method: 'POST',
         body: new URLSearchParams({
           id: span.dataset.id,
-          token: span.dataset.token,
+          token: token,
         }),
       }
       fetch(url, options);
@@ -51,7 +53,7 @@
     const options = {
       method: 'POST',
       body: new URLSearchParams({
-        token: purge.dataset.token,
+        token: token,
       }),
     }
     fetch(url, options);

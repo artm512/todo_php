@@ -1,5 +1,7 @@
 <?php
 
+namespace MyApp;
+
 class Token
 {
   // トークンを作る関数を定義

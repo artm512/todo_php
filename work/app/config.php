@@ -11,12 +11,18 @@ define('DB_PASS', 'myapppass');
 define('SITE_URL', 'http://' . $_SERVER['HTTP_HOST']);
 
 spl_autoload_register(function ($class) {
-  $fileName = sprintf(__DIR__ . '/%s.php', $class);
+  $prefix = 'MyApp\\'; // namespace
 
-  if (file_exists($fileName)) {
-    require($fileName);
-  } else {
-    echo 'File not found: ' . $fileName;
-    exit;
+  if(strpos($class, $prefix) == 0) {
+    // namespace分を切り出し
+    // $fileName = sprintf(__DIR__ . '/%s.php', substr($class, 6));
+    $fileName = sprintf(__DIR__ . '/%s.php', substr($class, strlen($prefix)));
+
+    if (file_exists($fileName)) {
+      require($fileName);
+    } else {
+      echo 'File not found: ' . $fileName;
+      exit;
+    }
   }
 });

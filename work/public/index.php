@@ -2,6 +2,11 @@
 
 require_once(__DIR__ . '/../app/config.php'); // 絶対パスで指定する
 
+// クラス 名前空間
+use MyApp\Database;
+use MyApp\Todo;
+use MyApp\Utils;
+
 $pdo = Database::getInstance();
 
 $todo = new Todo($pdo);

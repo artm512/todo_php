@@ -1,5 +1,7 @@
 <?php
 
+namespace MyApp;
+
 class Todo
 {
   private $pdo;
@@ -44,7 +46,7 @@ class Todo
       return;
     }
     $stmt = $this->pdo->prepare("INSERT INTO todos (title) VALUES (:title)");
-    $stmt->bindValue('title', $title, PDO::PARAM_STR); // 値を紐付ける
+    $stmt->bindValue('title', $title, \PDO::PARAM_STR); // 値を紐付ける
     $stmt->execute();
   }
 
@@ -56,7 +58,7 @@ class Todo
     }
 
     $stmt = $this->pdo->prepare("DELETE FROM todos WHERE id = :id");
-    $stmt->bindValue('id', $id, PDO::PARAM_INT);
+    $stmt->bindValue('id', $id, \PDO::PARAM_INT);
     $stmt->execute();
   }
 
@@ -68,7 +70,7 @@ class Todo
     }
 
     $stmt = $this->pdo->prepare("UPDATE todos SET is_done = NOT is_done WHERE id = :id");
-    $stmt->bindValue('id', $id, PDO::PARAM_INT);
+    $stmt->bindValue('id', $id, \PDO::PARAM_INT);
     $stmt->execute();
   }
 

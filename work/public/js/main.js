@@ -4,7 +4,19 @@
   const checkboxes = document.querySelectorAll('input[type="checkbox"]');
   checkboxes.forEach(checkbox => {
     checkbox.addEventListener('change', () => {
-      checkbox.parentNode.submit();
+      // 非同期通信 fetch
+      const url = '?action=toggle';
+      const options = {
+        method: 'POST',
+        body: new URLSearchParams({
+          id: checkbox.dataset.id,
+          token: checkbox.dataset.token,
+        }),
+      }
+      fetch(url, options);
+
+      // 打ち消し線のDOM操作
+      checkbox.nextElementSibling.classList.toggle('done');
     });
   });
 

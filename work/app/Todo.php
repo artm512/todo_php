@@ -36,8 +36,6 @@ class Todo
           exit;
       }
 
-      // 再読み込み時は、postではない形式でindex.phpにアクセスさせる
-      header('Location: ' . SITE_URL);
       exit;
     }
   }

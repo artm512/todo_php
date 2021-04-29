@@ -23,7 +23,20 @@
       if (!confirm('Are you sure?')) {
         return;
       }
-      span.parentNode.submit();
+      
+      // 非同期通信 fetch
+      const url = '?action=delete';
+      const options = {
+        method: 'POST',
+        body: new URLSearchParams({
+          id: span.dataset.id,
+          token: span.dataset.token,
+        }),
+      }
+      fetch(url, options);
+
+      // 削除した項目を削除
+      span.parentNode.remove();
     });
   });
 

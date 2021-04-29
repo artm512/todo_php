@@ -47,11 +47,11 @@ $todos = $todo->getAll();
           <?= $todo->is_done ? 'checked' : ''; ?>>
         <span><?= Utils::h($todo->title); ?></span>
 
-        <form action="?action=delete" method="post" class="delete-form">
-          <span class="delete">x</span>
-          <input type="hidden" name="id" value="<?= Utils::h($todo->id); ?>">
-          <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
-        </form>
+        <span
+          class="delete"
+          data-id="<?= Utils::h($todo->id); ?>"
+          data-token="<?= Utils::h($_SESSION['token']); ?>"
+          >x</span>
       </li>
       <?php endforeach; ?>
     </ul>

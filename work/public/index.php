@@ -2,13 +2,13 @@
 
 require_once(__DIR__ . '/../app/config.php'); // 絶対パスで指定する
 
-createToken();
+Token::create();
 
 $pdo = getPdoInstance();
 
 // $_SERVERを調べて、POSTだったら追加する
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  validateToken();
+  Token::validate();
   $action = filter_input(INPUT_GET, 'action');
 
   switch ($action) {

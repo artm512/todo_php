@@ -29,7 +29,7 @@ $todos = $todo->getAll();
       <span class="purge">Purge</span>
     </header>
 
-    <form>
+    <form class="addItemForm">
       <input type="text" name="title" placeholder="Type new todo.">
     </form>
 

@@ -3,7 +3,7 @@
 {
   const token = document.querySelector('main').dataset.token;
   const input = document.querySelector('[name="title"]');
-  const ul = document.querySelector('ul');
+  const ul = document.querySelector('.todoItems');
 
   const addTodo = (id, titleValue) => {
     // -- 追加したいDOM --
@@ -69,7 +69,7 @@
     }
   })
 
-  document.querySelector('form').addEventListener('submit', e => {
+  document.querySelector('.addItemForm').addEventListener('submit', e => {
     e.preventDefault();
 
     const title = input.value;

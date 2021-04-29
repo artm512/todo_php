@@ -29,9 +29,8 @@ $todos = $todo->getAll();
       <span class="purge">Purge</span>
     </header>
 
-    <form action="?action=add" method="post">
+    <form>
       <input type="text" name="title" placeholder="Type new todo.">
-      <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
     </form>
 
     <ul class="todoItems">

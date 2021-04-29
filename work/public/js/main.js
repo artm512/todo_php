@@ -2,6 +2,60 @@
 
 {
   const token = document.querySelector('main').dataset.token;
+  const input = document.querySelector('[name="title"]');
+
+  const addTodo = (id, titleValue) => {
+    // -- 追加したいDOM --
+    // <li class="todoItems__item" data-id="">
+    //   <input type="checkbox">
+    //   <span></span>
+    //   <span class="delete">x</span>
+    // </li>
+
+    const li = document.createElement('li');
+    li.dataset.id = id;
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    const title = document.createElement('span');
+    title.textContent = titleValue;
+    const deleteSpan = document.createElement('span');
+    deleteSpan.textContent = 'x';
+    deleteSpan.classList.add('delete');
+
+    li.appendChild(checkbox);
+    li.appendChild(title);
+    li.appendChild(deleteSpan);
+
+    const ul = document.querySelector('ul');
+    ul.insertBefore(li, ul.firstChild);
+  }
+
+  input.focus();
+
+  document.querySelector('form').addEventListener('submit', e => {
+    e.preventDefault();
+
+    const title = input.value;
+
+    // 非同期通信 fetch
+    const url = '?action=add';
+    const options = {
+      method: 'POST',
+      body: new URLSearchParams({
+        title: title,
+        token: token,
+      }),
+    }
+    fetch(url, options).then(response => {
+      return response.json();
+    })
+    .then(json => {
+      addTodo(json.id, title);
+    });
+
+    input.value = '';
+    input.focus();
+  })
 
   const checkboxes = document.querySelectorAll('input[type="checkbox"]');
   checkboxes.forEach(checkbox => {

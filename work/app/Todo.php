@@ -21,7 +21,9 @@ class Todo
 
       switch ($action) {
         case 'add':
-          $this->add();
+          $id = $this->add();
+          header('Content-Type: application/json'); // json形式で返す宣言
+          echo json_encode(['id' => $id]);
           break;
         case 'toggle':
           $this->toggle();
@@ -49,6 +51,9 @@ class Todo
     $stmt = $this->pdo->prepare("INSERT INTO todos (title) VALUES (:title)");
     $stmt->bindValue('title', $title, \PDO::PARAM_STR); // 値を紐付ける
     $stmt->execute();
+
+    // 非同期通信のため、追加した項目のidを返す
+    return (int) $this->pdo->lastInsertId();
   }
 
   private function delete()

@@ -2,37 +2,12 @@
 
 require_once(__DIR__ . '/../app/config.php'); // 絶対パスで指定する
 
-Token::create();
-
 $pdo = Database::getInstance();
 
-// $_SERVERを調べて、POSTだったら追加する
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  Token::validate();
-  $action = filter_input(INPUT_GET, 'action');
+$todo = new Todo($pdo);
+$todo->processPost();
+$todos = $todo->getAll();
 
-  switch ($action) {
-    case 'add':
-      addTodo($pdo);
-      break;
-    case 'toggle':
-      toggleTodo($pdo);
-      break;
-    case 'delete':
-      deleteTodo($pdo);
-      break;
-    default:
-      exit;
-  }
-
-  // 再読み込み時は、postではない形式でindex.phpにアクセスさせる
-  header('Location: ' . SITE_URL);
-  exit;
-}
-
-$todos = getTodos($pdo);
-// var_dump($todos); // $todosを表示してみる
-// exit;
 ?>
 
 <!DOCTYPE html>

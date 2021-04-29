@@ -26,7 +26,9 @@ class Todo
           echo json_encode(['id' => $id]);
           break;
         case 'toggle':
-          $this->toggle();
+          $isDone = $this->toggle();
+          header('Content-Type: application/json'); // json形式で返す宣言
+          echo json_encode(['is_done' => $isDone]);
           break;
         case 'delete':
           $this->delete();
@@ -81,13 +83,16 @@ class Todo
     $stmt->execute();
     $todo = $stmt->fetch();
     if (empty($todo)) {
-      header('HTTP', tre, 404); // 404エラーコードを返す。HTTP status code
+      header('HTTP', true, 404); // 404エラーコードを返す。HTTP status code
       exit;
     }
 
     $stmt = $this->pdo->prepare("UPDATE todos SET is_done = NOT is_done WHERE id = :id");
     $stmt->bindValue('id', $id, \PDO::PARAM_INT);
     $stmt->execute();
+
+    // 最新の状態を返す（更新する前のis_doneを反転させたもの）
+    return (boolean) !$todo->is_done;
   }
 
   private function purge(){

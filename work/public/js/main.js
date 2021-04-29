@@ -3,6 +3,7 @@
 {
   const token = document.querySelector('main').dataset.token;
   const input = document.querySelector('[name="title"]');
+  const ul = document.querySelector('ul');
 
   const addTodo = (id, titleValue) => {
     // -- 追加したいDOM --
@@ -26,11 +27,47 @@
     li.appendChild(title);
     li.appendChild(deleteSpan);
 
-    const ul = document.querySelector('ul');
     ul.insertBefore(li, ul.firstChild);
   }
 
   input.focus();
+
+  ul.addEventListener('click', e => {
+    // toggle
+    if (e.target.type === 'checkbox') {
+      // 非同期通信 fetch
+      const url = '?action=toggle';
+      const options = {
+        method: 'POST',
+        body: new URLSearchParams({
+          id: e.target.parentNode.dataset.id,
+          token: token,
+        }),
+      }
+      fetch(url, options);
+    }
+
+    // delete
+    if (e.target.classList.contains('delete')){
+      if (!confirm('Are you sure?')) {
+        return;
+      }
+      
+      // 非同期通信 fetch
+      const url = '?action=delete';
+      const options = {
+        method: 'POST',
+        body: new URLSearchParams({
+          id: e.target.parentNode.dataset.id,
+          token: token,
+        }),
+      }
+      fetch(url, options);
+
+      // 削除した項目を削除
+      e.target.parentNode.remove();
+    }
+  })
 
   document.querySelector('form').addEventListener('submit', e => {
     e.preventDefault();
@@ -56,45 +93,6 @@
     input.value = '';
     input.focus();
   })
-
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-  checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', () => {
-      // 非同期通信 fetch
-      const url = '?action=toggle';
-      const options = {
-        method: 'POST',
-        body: new URLSearchParams({
-          id: checkbox.parentNode.dataset.id,
-          token: token,
-        }),
-      }
-      fetch(url, options);
-    });
-  });
-
-  const deletes = document.querySelectorAll('.delete');
-  deletes.forEach(span => {
-    span.addEventListener('click', () => {
-      if (!confirm('Are you sure?')) {
-        return;
-      }
-      
-      // 非同期通信 fetch
-      const url = '?action=delete';
-      const options = {
-        method: 'POST',
-        body: new URLSearchParams({
-          id: span.parentNode.dataset.id,
-          token: token,
-        }),
-      }
-      fetch(url, options);
-
-      // 削除した項目を削除
-      span.parentNode.remove();
-    });
-  });
 
   const purge = document.querySelector('.purge');
   purge.addEventListener('click', () => {

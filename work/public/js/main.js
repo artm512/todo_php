@@ -48,6 +48,13 @@
         if (!response.ok) {
           throw new Error('This todo has been deleted!');
         }
+        return response.json();
+      })
+      .then(json => {
+        if (json.is_done !== e.target.checked) {
+          alert('This Todo has been updated. UI is being updated.');
+          e.target.checked = json.is_done;
+        }
       })
       .catch(err => {
         alert(err.message);

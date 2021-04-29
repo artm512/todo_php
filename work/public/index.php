@@ -4,7 +4,7 @@ require_once(__DIR__ . '/../app/config.php'); // 絶対パスで指定する
 
 Token::create();
 
-$pdo = getPdoInstance();
+$pdo = Database::getInstance();
 
 // $_SERVERを調べて、POSTだったら追加する
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

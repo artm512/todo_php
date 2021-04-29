@@ -15,6 +15,7 @@
 
     const li = document.createElement('li');
     li.dataset.id = id;
+    li.classList.add('todoItems__item');
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     const title = document.createElement('span');

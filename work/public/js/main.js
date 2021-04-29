@@ -14,9 +14,6 @@
         }),
       }
       fetch(url, options);
-
-      // 打ち消し線のDOM操作
-      checkbox.nextElementSibling.classList.toggle('done');
     });
   });
 

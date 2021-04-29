@@ -45,9 +45,7 @@ $todos = $todo->getAll();
           data-id="<?= Utils::h($todo->id); ?>"
           data-token="<?= Utils::h($_SESSION['token']); ?>"
           <?= $todo->is_done ? 'checked' : ''; ?>>
-        <span class="<?= $todo->is_done ? 'done' : ''; ?>">
-          <?= Utils::h($todo->title); ?>
-        </span>
+        <span><?= Utils::h($todo->title); ?></span>
 
         <form action="?action=delete" method="post" class="delete-form">
           <span class="delete">x</span>

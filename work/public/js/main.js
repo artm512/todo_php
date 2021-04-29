@@ -44,7 +44,15 @@
           token: token,
         }),
       }
-      fetch(url, options);
+      fetch(url, options).then(response => {
+        if (!response.ok) {
+          throw new Error('This todo has been deleted!');
+        }
+      })
+      .catch(err => {
+        alert(err.message);
+        location.reload();
+      });
     }
 
     // delete

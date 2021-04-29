@@ -75,6 +75,16 @@ class Todo
       return;
     }
 
+    // レコードがすでに更新されていた場合はエラーを出す
+    $stmt = $this->pdo->prepare("SELECT * FROM todos WHERE id = :id");
+    $stmt->bindValue('id', $id, \PDO::PARAM_INT);
+    $stmt->execute();
+    $todo = $stmt->fetch();
+    if (empty($todo)) {
+      header('HTTP', tre, 404); // 404エラーコードを返す。HTTP status code
+      exit;
+    }
+
     $stmt = $this->pdo->prepare("UPDATE todos SET is_done = NOT is_done WHERE id = :id");
     $stmt->bindValue('id', $id, \PDO::PARAM_INT);
     $stmt->execute();

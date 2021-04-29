@@ -1,10 +1,5 @@
 <?php
 
-function h($str) {
-  // HTMLに値を埋め込むには htmlspecialchars() が必要
-  return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
-}
-
 // トークンを作る関数を定義
 function createToken()
 {

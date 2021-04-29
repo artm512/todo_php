@@ -48,7 +48,7 @@ $todos = getTodos($pdo);
 
     <form action="?action=add" method="post">
       <input type="text" name="title" placeholder="Type new todo.">
-      <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+      <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
     </form>
 
     <ul>
@@ -56,17 +56,17 @@ $todos = getTodos($pdo);
       <li>
         <form action="?action=toggle" method="post">
           <input type="checkbox" <?= $todo->is_done ? 'checked' : ''; ?>>
-          <input type="hidden" name="id" value="<?= h($todo->id); ?>">
-          <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+          <input type="hidden" name="id" value="<?= Utils::h($todo->id); ?>">
+          <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
         </form>
         <span class="<?= $todo->is_done ? 'done' : ''; ?>">
-          <?= h($todo->title); ?>
+          <?= Utils::h($todo->title); ?>
         </span>
 
         <form action="?action=delete" method="post" class="delete-form">
           <span class="delete">x</span>
-          <input type="hidden" name="id" value="<?= h($todo->id); ?>">
-          <input type="hidden" name="token" value="<?= h($_SESSION['token']); ?>">
+          <input type="hidden" name="id" value="<?= Utils::h($todo->id); ?>">
+          <input type="hidden" name="token" value="<?= Utils::h($_SESSION['token']); ?>">
         </form>
       </li>
       <?php endforeach; ?>
